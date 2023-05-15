@@ -1,5 +1,8 @@
 # News API Documentation
 
+## Entity Relationship Diagram (ERD)
+![add](./ERD.png "add")
+
 ## Endpoint
 - POST /articles
 - GET /articles
