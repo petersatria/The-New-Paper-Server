@@ -1,0 +1,25 @@
+{
+  "name": "fsjs-p2-v3-c1-server-petersatria",
+  "version": "1.0.0",
+  "description": "[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=11150535&assignment_repo_type=AssignmentRepo)\r # p2-cms-integration-server\r CMS Integration - Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/H8-P2-S3/fsjs-p2-v3-c1-server-petersatria.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/H8-P2-S3/fsjs-p2-v3-c1-server-petersatria/issues"
+  },
+  "homepage": "https://github.com/H8-P2-S3/fsjs-p2-v3-c1-server-petersatria#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "pg": "^8.10.0",
+    "sequelize": "^6.31.1"
+  }
+}
