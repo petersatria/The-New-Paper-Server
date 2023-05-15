@@ -64,7 +64,8 @@ OR
  ```json
 {
   "message": "Success get data",
-  "data": [{
+  "data": [
+    {
       "title": "praesent blandit lacinia erat vestibulum sed magna at nunc commodo placerat praesent",
       "content": "Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices.",
       "imgUrl": "http://dummyimage.com/233x100.png/5fa2dd/ffffff",
@@ -136,7 +137,7 @@ OR
 - Response (200) - Success delete article
  ```json
 {
-  "message": "Article sucess to delete",
+  "message": "Article succcess to delete",
   "data": {
     "title": "praesent blandit lacinia erat vestibulum sed magna at nunc commodo placerat praesent",
     "content": "Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices.",
@@ -162,7 +163,8 @@ OR
  ```json
 {
   "message": "Success get data",
-  "data": [{
+  "data": [
+    {
       "name": "Politics"
     },
     {
