@@ -39,8 +39,30 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     imgUrl: DataTypes.STRING,
-    authorId: DataTypes.INTEGER,
-    categoryId: DataTypes.INTEGER
+    authorId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Author is required'
+        },
+        notEmpty: {
+          msg: 'Author is required'
+        }
+      }
+    },
+    categoryId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Category is required'
+        },
+        notEmpty: {
+          msg: 'Category is required'
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Article',
