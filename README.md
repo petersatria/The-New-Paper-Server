@@ -242,7 +242,7 @@ OR
 }
  ```
 ### Response
-- Response (200) - Success get data categories
+- Response (201) - Success registered user
  ```json
 {
     "message": "Success registered user",
@@ -273,15 +273,13 @@ OR
 - Description : login the user with their account
 
 ### Response
-- Response (200) - Success get data categories
+- Response (200) - Success to login
  ```json
 {
-    "message": "Success registered user",
-    "data": {
-        "id": 11,
-        "email": "admin@test.com",
-        "username": "admintest"
-    }
+    "message": "Success to login",
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg0MjQ3MzA5fQ.wKWMyOpWjhyJHOeRSCc0wraOqdMHqpvT9invZr_38gs",
+    "username": "mbartolomeu0",
+    "role": "Staff"
 }
 ```
 - Response (400) - Failed login because of empty input
