@@ -1,20 +1,17 @@
 const { Article, Category, User } = require('../models')
 
 class Controller {
-  static async createArticle(req, res) {
+  static async createArticle(req, res, next) {
     try {
-      const { title, content, imgUrl, authorId, categoryId } = req.body
-      const data = await Article.create({ title, content, imgUrl, authorId, categoryId })
+      const { title, content, imgUrl, categoryId } = req.body
+      const data = await Article.create({ title, content, imgUrl, authorId: req.user.id, categoryId })
       res.status(201).json({ message: 'Success create article', data })
     } catch (err) {
-      if (err.name === 'SequelizeValidationError') {
-        return res.status(400).json({ message: err.errors[0].message })
-      }
-      res.status(500).json({ message: 'Internal Server Error' })
+      next(err)
     }
   }
 
-  static async articles(req, res) {
+  static async articles(req, res, next) {
     try {
       const data = await Article.findAll({
         include: [{
@@ -27,11 +24,11 @@ class Controller {
       })
       res.status(200).json({ message: 'Success get data', data })
     } catch (err) {
-      res.status(500).json({ message: 'Internal Server Error' })
+      next(err)
     }
   }
 
-  static async findArticle(req, res) {
+  static async findArticle(req, res, next) {
     const { id } = req.params
     try {
       const options = {
@@ -44,39 +41,29 @@ class Controller {
         }]
       }
       const data = await Article.findByPk(id, options)
-      if (!data) {
-        throw 'NOTFOUND'
-      }
+      if (!data) throw { name: 'NotFound' }
       res.status(200).json({ message: 'Success get data', data })
     } catch (err) {
-      if (err === 'NOTFOUND') {
-        return res.status(404).json({ message: 'Article is not found' })
-      }
-      res.status(500).json({ message: 'Internal Server Error' })
+      next(err)
     }
   }
-  static async deleteArticle(req, res) {
-    const { id } = req.params
+  static async deleteArticle(req, res, next) {
     try {
+      const { id } = req.params
       const article = await Article.findByPk(id)
       const data = await Article.destroy({ where: { id } })
-      if (data === 0) {
-        throw 'NOTFOUND'
-      }
+      if (data === 0) throw { name: 'NotFound' }
       res.status(200).json({ message: 'Article sucess to delete', data: article })
     } catch (err) {
-      if (err === 'NOTFOUND') {
-        return res.status(404).json({ message: 'Article is not found' })
-      }
-      res.status(500).json({ message: 'Internal Server Error' })
+      next(err)
     }
   }
-  static async findCategories(req, res) {
+  static async findCategories(req, res, next) {
     try {
       const data = await Category.findAll()
       res.status(200).json({ message: 'Success get data', data })
     } catch (err) {
-      res.status(500).json({ message: 'Internal Server Error' })
+      next(err)
     }
   }
 }
