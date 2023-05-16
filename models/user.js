@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { hashPassword } = require("../helpers/helper");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -43,8 +44,8 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           msg: 'Password is required'
         },
-        min: {
-          args: 5,
+        len: {
+          args: [5, 32],
           msg: 'Minimum password is 5 character'
         }
       }
@@ -56,5 +57,8 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
   });
+  User.beforeCreate((user, options) => {
+    user.password = hashPassword(user.password)
+  })
   return User;
 };

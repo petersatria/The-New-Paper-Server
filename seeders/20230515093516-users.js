@@ -1,6 +1,6 @@
 'use strict';
 
-const { hashPassword } = require("../helpers/bcrypt");
+const { hashPassword } = require("../helpers/helper");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
