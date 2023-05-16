@@ -9,11 +9,20 @@
 - GET /articles/:id
 - DELETE /articles/:id
 - GET /categories
+- POST /register
+- POST /login
 
 ## 1. POST /articles 
 - Description : create a new article
 
 ### Request 
+- request headers
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlh"
+}
+ ```
+
 - request body
 ```json
 {
@@ -62,6 +71,14 @@ OR
 ## 2. GET /articles 
 - Description : get all articles
 
+### Request 
+- request headers
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlh"
+}
+ ```
+ 
 ### Response
 - Response (200) - Success get data articles
  ```json
@@ -104,6 +121,14 @@ OR
 ## 3. GET /articles/:id
 - Description : get an article by id
 
+### Request 
+- request headers
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlh"
+}
+ ```
+
 ### Response
 - Response (200) - Success get an article
  ```json
@@ -129,12 +154,20 @@ OR
 - Response (404) - Article not found
 ```json
 {
-  "message" : "Article is not found"
+  "message" : "Data is not found"
 }
 ```
 
 ## 4. DELETE /articles/:id
 - Description : Delete an article by id
+
+### Request 
+- request headers
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlh"
+}
+ ```
 
 ### Response
 - Response (200) - Success delete article
@@ -151,15 +184,30 @@ OR
 }
 ```
 
+- Response (403) - Forbidden
+```json
+{
+    "message": "You are not authorized"
+}
+```
+
 - Response (404) - Article not found
 ```json
 {
-  "message" : "Article is not found"
+  "message" : "Data is not found"
 }
 ```
 
 ## 5. GET /categories 
 - Description : get all categories
+
+### Request 
+- request headers
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlh"
+}
+ ```
 
 ### Response
 - Response (200) - Success get data categories
@@ -181,9 +229,87 @@ OR
 }
 ```
 
+## 6. POST /register 
+- Description : create a new user account
+
+### Request 
+- request body
+```json
+{
+  "username": "admintest",
+  "email": "admin@test.com",
+  "password": "admintest"
+}
+ ```
+### Response
+- Response (200) - Success get data categories
+ ```json
+{
+    "message": "Success registered user",
+    "data": {
+        "id": 11,
+        "email": "admin@test.com",
+        "username": "admintest"
+    }
+}
+```
+
+- Response (400) - Failed create account
+ ```json
+{
+    "message": "Username is required"
+}
+OR
+{
+    "message": "Email is required"
+}
+OR
+{
+    "message": "Password is required"
+}
+```
+
+## 6. POST /login 
+- Description : login the user with their account
+
+### Response
+- Response (200) - Success get data categories
+ ```json
+{
+    "message": "Success registered user",
+    "data": {
+        "id": 11,
+        "email": "admin@test.com",
+        "username": "admintest"
+    }
+}
+```
+- Response (400) - Failed login because of empty input
+ ```json
+{
+    "message": "Email / password is required"
+}
+```
+
+- Response (401) - Invalid user credentials
+ ```json
+{
+    "message": "Email / password is incorrect"
+}
+```
+
 ## Global Errors
+
+- Response (401) - Unauthenticated
+```json
+{
+    "message": "Unauthenticated"
+}
+```
+
 - Response (500) - Internal Server Error
 ```json
 {
   "message" : "Internal Server Error"
 }
+```
