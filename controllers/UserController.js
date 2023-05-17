@@ -29,7 +29,9 @@ class UserController {
       if (!isValidPassword) throw { name: 'EmailPasswordInvalid' }
 
       const access_token = signToken({ id: data.id })
-      res.status(200).json({ message: 'Success to login', access_token, username: data.username, role: data.role })
+      res.status(200).json({
+        message: 'Success to login', access_token, id: data.id, username: data.username, role: data.role
+      })
     } catch (err) {
       next(err)
     }
