@@ -1,5 +1,6 @@
 const { comparePassword, signToken } = require("../helpers/helper")
 const { Article, Category, User } = require('../models')
+const { OAuth2Client } = require('google-auth-library');
 
 class UserController {
   static async register(req, res, next) {
@@ -30,7 +31,36 @@ class UserController {
 
       const access_token = signToken({ id: data.id })
       res.status(200).json({
-        message: 'Success to login', access_token, id: data.id, username: data.username, role: data.role
+        message: 'Success to login', access_token, id: data.id,
+        username: data.username, role: data.role
+      })
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  static async googleLogin(req, res, next) {
+    try {
+      const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+      const ticket = await client.verifyIdToken({
+        idToken: req.headers.google_token,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+      const payload = ticket.getPayload();
+
+      let user = await User.findOne({ where: { email: payload.email } })
+      if (!user) {
+        const { email, name } = payload
+        user = await User.create({
+          username: name.split(' ').join('').toLowerCase(),
+          email, phoneNumber: '', address: '', role: 'Staff',
+          password: String(Math.random())
+        })
+      }
+      const access_token = signToken({ id: user.id })
+      res.status(200).json({
+        message: 'Success to login', access_token, id: user.id,
+        username: user.username, role: user.role
       })
     } catch (err) {
       next(err)
