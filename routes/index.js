@@ -9,6 +9,7 @@ router
   .use(authentication)
   .use('/articles', require('./articles'))
   .get('/categories', Controller.findCategories)
+  .get('/histories', Controller.history)
   .use(errorHandler)
 
 module.exports = router

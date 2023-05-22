@@ -24,6 +24,10 @@ function errorHandler(err, req, res, next) {
       status = 401
       message = 'Email / password is incorrect'
       break;
+    case 'StatusInvalid':
+      status = 401
+      message = 'Status is incorrect'
+      break;
     case 'Forbidden':
       status = 403
       message = 'You are not authorized'

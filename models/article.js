@@ -63,7 +63,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Category is required'
         }
       }
-    }
+    },
+    status: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Article',
