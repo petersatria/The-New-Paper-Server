@@ -6,6 +6,7 @@ module.exports = {
     const data = require('../data/articles.json')
     data.forEach(e => {
       e.createdAt = e.updatedAt = new Date()
+      e.status = 'Active'
     })
     await queryInterface.bulkInsert('Articles', data);
   },
