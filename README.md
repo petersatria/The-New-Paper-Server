@@ -1,9 +1,11 @@
 # News API Documentation
 
 ## Entity Relationship Diagram (ERD)
+
 ![add](./ERD.png "add")
 
 ## Endpoint
+
 - POST /articles
 - GET /articles
 - GET /articles/:id
@@ -11,19 +13,26 @@
 - GET /categories
 - POST /register
 - POST /login
+- PUT /articles/:id
+- PATCH /articles/:id
+- GET /histories
 
-## 1. POST /articles 
+## 1. POST /articles
+
 - Description : create a new article
 
-### Request 
+### Request
+
 - request headers
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlh"
 }
- ```
+```
 
 - request body
+
 ```json
 {
   "title": "praesent blandit lacinia erat vestibulum sed magna at nunc commodo placerat praesent",
@@ -32,11 +41,13 @@
   "authorId": 1,
   "categoryId": 6
 }
- ```
+```
 
 ### Response
+
 - Response (201) - Success created an article
- ```json
+
+```json
 {
   "message": "Success create article",
   "data": {
@@ -50,6 +61,7 @@
 ```
 
 - Response (400) - Failed created an article
+
 ```json
 {
   "message" : "Title is required"
@@ -68,70 +80,80 @@ OR
 }
 ```
 
-## 2. GET /articles 
+## 2. GET /articles
+
 - Description : get all articles
 
-### Request 
+### Request
+
 - request headers
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlh"
 }
- ```
- 
+```
+
 ### Response
+
 - Response (200) - Success get data articles
- ```json
+
+```json
 {
-  "message": "Success get data",
-  "data": [
-    {
-      "title": "praesent blandit lacinia erat vestibulum sed magna at nunc commodo placerat praesent",
-      "content": "Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices.",
-      "imgUrl": "http://dummyimage.com/233x100.png/5fa2dd/ffffff",
-      "authorId": 1,
-      "categoryId": 6,
-      "Author": {
-        "username": "mbartolomeu0",
-        "email": "znester0@blogspot.com"
-      },
-      "Category": {
-        "name": "Politics"
-      }
-    },
-    {
-      "title": "a pede posuere nonummy integer non velit donec diam neque vestibulum eget vulputate ut ltrices vel",
-      "content": "Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.\n\nCras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nProin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue.",
-      "imgUrl": "http://dummyimage.com/233x100.png/5fa2dd/ffffff",
-      "authorId": 2,
-      "categoryId": 3,
-      "Author": {
-        "username": "twestberg1",
-        "email": "jbourke1@seesaa.net"
-      },
-      "Category": {
-        "name": "Entertainment"
-      }
+ "message": "Success get data",
+ "data": [
+   {
+     "title": "praesent blandit lacinia erat vestibulum sed magna at nunc commodo placerat praesent",
+     "content": "Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices.",
+     "imgUrl": "http://dummyimage.com/233x100.png/5fa2dd/ffffff",
+     "authorId": 1,
+     "categoryId": 6,
+     "Author": {
+       "username": "mbartolomeu0",
+       "email": "znester0@blogspot.com"
+     },
+     "Category": {
+       "name": "Politics"
+     }
    },
-  ...
-  ]
+   {
+     "title": "a pede posuere nonummy integer non velit donec diam neque vestibulum eget vulputate ut ltrices vel",
+     "content": "Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.\n\nCras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nProin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue.",
+     "imgUrl": "http://dummyimage.com/233x100.png/5fa2dd/ffffff",
+     "authorId": 2,
+     "categoryId": 3,
+     "Author": {
+       "username": "twestberg1",
+       "email": "jbourke1@seesaa.net"
+     },
+     "Category": {
+       "name": "Entertainment"
+     }
+  },
+ ...
+ ]
 }
 ```
 
 ## 3. GET /articles/:id
+
 - Description : get an article by id
 
-### Request 
+### Request
+
 - request headers
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlh"
 }
- ```
+```
 
 ### Response
+
 - Response (200) - Success get an article
- ```json
+
+```json
 {
   "message": "Success get data",
   "data": {
@@ -147,31 +169,37 @@ OR
     "Category": {
       "name": "Politics"
     }
-  }  
+  }
 }
 ```
 
 - Response (404) - Article not found
+
 ```json
 {
-  "message" : "Data is not found"
+  "message": "Data is not found"
 }
 ```
 
 ## 4. DELETE /articles/:id
+
 - Description : Delete an article by id
 
-### Request 
+### Request
+
 - request headers
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlh"
 }
- ```
+```
 
 ### Response
+
 - Response (200) - Success delete article
- ```json
+
+```json
 {
   "message": "Article succcess to delete",
   "data": {
@@ -180,134 +208,267 @@ OR
     "imgUrl": "http://dummyimage.com/233x100.png/5fa2dd/ffffff",
     "authorId": 1,
     "categoryId": 6
-  }  
+  }
 }
 ```
 
 - Response (403) - Forbidden
+
 ```json
 {
-    "message": "You are not authorized"
+  "message": "You are not authorized"
 }
 ```
 
 - Response (404) - Article not found
+
 ```json
 {
-  "message" : "Data is not found"
+  "message": "Data is not found"
 }
 ```
 
-## 5. GET /categories 
+## 5. GET /categories
+
 - Description : get all categories
 
-### Request 
+### Request
+
 - request headers
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlh"
 }
- ```
+```
 
 ### Response
+
 - Response (200) - Success get data categories
- ```json
+
+```json
 {
-  "message": "Success get data",
-  "data": [
-    {
-      "name": "Politics"
-    },
-    {
-      "name": "Sports"
-    },
-    {
-      "name": "Entertainment"
-    },
-  ...
-  ]
+ "message": "Success get data",
+ "data": [
+   {
+     "name": "Politics"
+   },
+   {
+     "name": "Sports"
+   },
+   {
+     "name": "Entertainment"
+   },
+ ...
+ ]
 }
 ```
 
-## 6. POST /register 
+## 6. POST /register
+
 - Description : create a new user account
 
-### Request 
+### Request
+
 - request body
+
 ```json
 {
   "username": "admintest",
   "email": "admin@test.com",
   "password": "admintest"
 }
- ```
+```
+
 ### Response
+
 - Response (201) - Success registered user
- ```json
+
+```json
 {
-    "message": "Success registered user",
-    "data": {
-        "id": 11,
-        "email": "admin@test.com",
-        "username": "admintest"
-    }
+  "message": "Success registered user",
+  "data": {
+    "id": 11,
+    "email": "admin@test.com",
+    "username": "admintest"
+  }
 }
 ```
 
 - Response (400) - Failed create account
- ```json
+
+```json
 {
-    "message": "Username is required"
+   "message": "Username is required"
 }
 OR
 {
-    "message": "Email is required"
+   "message": "Email is required"
 }
 OR
 {
-    "message": "Password is required"
+   "message": "Password is required"
 }
 ```
 
-## 6. POST /login 
+## 6. POST /login
+
 - Description : login the user with their account
 
 ### Response
+
 - Response (200) - Success to login
- ```json
+
+```json
 {
-    "message": "Success to login",
-    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg0MjQ3MzA5fQ.wKWMyOpWjhyJHOeRSCc0wraOqdMHqpvT9invZr_38gs",
-    "username": "mbartolomeu0",
-    "role": "Staff"
+  "message": "Success to login",
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg0MjQ3MzA5fQ.wKWMyOpWjhyJHOeRSCc0wraOqdMHqpvT9invZr_38gs",
+  "username": "mbartolomeu0",
+  "role": "Staff"
 }
 ```
+
 - Response (400) - Failed login because of empty input
- ```json
+
+```json
 {
-    "message": "Email / password is required"
+  "message": "Email / password is required"
 }
 ```
 
 - Response (401) - Invalid user credentials
- ```json
+
+```json
 {
-    "message": "Email / password is incorrect"
+  "message": "Email / password is incorrect"
+}
+```
+
+## 7. PUT /articles/:id
+
+- Description : update article content
+
+### Request
+
+- request headers
+
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlh"
+}
+```
+
+- request body
+
+```json
+{
+  "title": "example title",
+  "content": "example content",
+  "imgUrl": "example.jpg",
+  "categoryId": 1
+}
+```
+
+### Response
+
+- Response (200) - Success update article
+
+```json
+{
+  "message": "Article with id 32 updated"
+}
+```
+
+## 8. PATCH /articles/:id
+
+- Description : change article status (admin only)
+
+### Request
+
+- request headers
+
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlh"
+}
+```
+
+- request body
+
+```json
+{
+  "status": "Inactivea"
+}
+```
+
+### Response
+
+- Response (200) - Success to change article status
+
+```json
+{
+  "message": "Status is incorrect",
+  "name": "StatusInvalid"
+}
+```
+
+## 8. GET /histories
+
+- Description : get logs/histories article
+
+### Request
+
+- request headers
+
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlh"
+}
+```
+
+### Response
+
+- Response (200) - Success to get logs/histories article
+
+```json
+{
+    "message": "Success get data",
+    "data": [
+        {
+            "id": 1,
+            "name": "example 1",
+            "description": "Article with id 1 updated",
+            "updatedBy": "admin@test.com",
+            "createdAt": "2023-05-23T11:19:36.710Z",
+            "updatedAt": "2023-05-23T11:19:36.710Z"
+        },
+        {
+            "id": 2,
+            "name": "example 1",
+            "description": "New article with id 2 created",
+            "updatedBy": "admin@test.com",
+            "createdAt": "2023-05-23T11:18:16.658Z",
+            "updatedAt": "2023-05-23T11:18:16.658Z"
+        },
+        ...
+    ]
 }
 ```
 
 ## Global Errors
 
 - Response (401) - Unauthenticated
+
 ```json
 {
-    "message": "Unauthenticated"
+  "message": "Unauthenticated"
 }
 ```
 
 - Response (500) - Internal Server Error
+
 ```json
 {
-  "message" : "Internal Server Error"
+  "message": "Internal Server Error"
 }
 ```
