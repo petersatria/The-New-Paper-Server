@@ -4,7 +4,10 @@ const { sequelize } = require("../../models");
 const { hashPassword } = require("../../helpers/helper");
 
 beforeAll(async () => {
-  await sequelize.queryInterface.bulkInsert('Customers', [{ email: 'customer@test.com', password: hashPassword('customer'), role: 'Customer', createdAt: new Date(), updatedAt: new Date() }])
+  await sequelize.queryInterface.bulkInsert('Customers', [{
+    email: 'customer@test.com', password: hashPassword('customer'),
+    role: 'Customer', createdAt: new Date(), updatedAt: new Date()
+  }])
 })
 
 afterAll(async () => {

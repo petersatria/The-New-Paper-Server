@@ -28,6 +28,10 @@ function errorHandler(err, req, res, next) {
       status = 401
       message = 'Status is incorrect'
       break;
+    case 'BookmarkedArticle':
+      status = 401
+      message = 'Article is already bookmarked'
+      break;
     case 'Forbidden':
       status = 403
       message = 'You are not authorized'

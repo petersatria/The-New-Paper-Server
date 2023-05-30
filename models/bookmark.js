@@ -10,10 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Bookmark.belongsTo(models.Customer)
+      Bookmark.belongsTo(models.Article)
     }
   }
   Bookmark.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     CustomerId: DataTypes.INTEGER,
     ArticleId: DataTypes.INTEGER
   }, {

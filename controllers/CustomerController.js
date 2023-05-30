@@ -1,5 +1,6 @@
+const { Op } = require("sequelize")
 const { comparePassword, signToken } = require("../helpers/helper")
-const { Customer, Article, Category, User } = require('../models')
+const { Customer, Article, Category, User, Bookmark } = require('../models')
 
 class CustomerController {
   static async register(req, res, next) {
@@ -69,8 +70,6 @@ class CustomerController {
   static async articles(req, res, next) {
     try {
       const { page, filter } = req.query
-      let limit = page?.size || 8
-      let offset = page?.number || 1
       const options = {
         include: [{
           model: Category,
@@ -79,37 +78,87 @@ class CustomerController {
           model: User,
           attributes: ['username', 'email']
         }],
-        order: [['id', 'ASC']]
+        order: [['updatedAt', 'DESC']]
       }
 
       if (page) {
         if (page.size) {
-          options.limit = limit
+          options.limit = page.size
         }
         if (page.number) {
-          options.offset = offset * limit - limit
+          options.offset = page.number * page.size - page.size
         }
-      } else {
-        options.limit = limit
-        options.offset = offset
       }
 
       if (filter) {
-        options.include[0].where = { name: filter }
-
+        const query = filter.category.split(',').map(e => ({ [Op.eq]: e }))
+        options.where = { categoryId: { [Op.or]: query } }
       }
 
       const data = await Article.findAndCountAll(options)
       res.status(200).json({
         message: 'Success get data', data,
-        totalItems: data.count, totalPages: Math.ceil(data.count / limit),
-        currentPage: page?.number || offset
+        totalItems: data.count, totalPages: Math.ceil(data.count / page?.size || 1),
+        currentPage: +page?.number || 1
       })
     } catch (err) {
-      console.log(err);
       next(err)
     }
   }
+
+  static async findArticle(req, res, next) {
+    const { id } = req.params
+    try {
+      const options = {
+        include: [{
+          model: Category,
+          attributes: ['name']
+        }, {
+          model: User,
+          attributes: ['username', 'email']
+        }]
+      }
+
+      const data = await Article.findByPk(id, options)
+      if (!data) throw { name: 'NotFound' }
+      res.status(200).json({ message: 'Success get data', data })
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  static async bookmarks(req, res, next) {
+    try {
+      const { CustomerId } = req.user
+      const data = await Bookmark.findAll({ include: ['Article'], where: { CustomerId } })
+      res.status(200).json({ message: 'Success get data', data })
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  static async addBookmark(req, res, next) {
+    try {
+      const { CustomerId } = req.user
+      const { ArticleId } = req.params
+
+      const data = await Article.findByPk(ArticleId)
+      if (!data) throw { name: 'NotFound' }
+
+      const isAdded = await Bookmark.findOne({ where: { ArticleId } })
+      if (isAdded) throw { name: 'BookmarkedArticle' }
+
+      const bookmarks = await Bookmark.create({ CustomerId, ArticleId })
+      res.status(201).json({
+        message: 'Success added article to bookmarks',
+        data: { id: bookmarks.id, CustomerId, ArticleId }
+      })
+
+    } catch (err) {
+      next(err)
+    }
+  }
+
 }
 
 
