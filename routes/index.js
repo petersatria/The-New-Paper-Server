@@ -6,6 +6,7 @@ const router = require('express').Router()
 
 router
   .use('/', require('./users'))
+  .use('/api', require('./customers'))
   .use(authentication)
   .use('/articles', require('./articles'))
   .get('/categories', Controller.findCategories)
