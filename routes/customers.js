@@ -7,5 +7,6 @@ router
   .get('/articles/:id', CustomerController.findArticle)
   .get('/bookmarks', customerAuthentication, CustomerController.bookmarks)
   .post('/bookmarks/:ArticleId', customerAuthentication, CustomerController.addBookmark)
+  .post('/articles/:id', CustomerController.generateQR)
 
 module.exports = router

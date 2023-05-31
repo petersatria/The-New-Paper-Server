@@ -1,6 +1,7 @@
 const { Op } = require("sequelize")
 const { comparePassword, signToken } = require("../helpers/helper")
 const { Customer, Article, Category, User, Bookmark } = require('../models')
+const { default: axios } = require("axios")
 
 class CustomerController {
   static async register(req, res, next) {
@@ -30,7 +31,7 @@ class CustomerController {
       const isValidPassword = comparePassword(password, data.password)
       if (!isValidPassword) throw { name: 'EmailPasswordInvalid' }
 
-      const access_token = signToken({ id: data.id })
+      const access_token = signToken({ id: data.id }, true)
       res.status(200).json({
         message: 'Success to login', access_token, id: data.id,
         role: data.role
@@ -154,6 +155,25 @@ class CustomerController {
         data: { id: bookmarks.id, CustomerId, ArticleId }
       })
 
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  static async generateQR(req, res, next) {
+    try {
+      const { id } = req.params
+      const { data } = await axios({
+        method: 'POST',
+        url: `https://api.qr-code-generator.com/v1/create?access-token=${process.env.QR_TOKEN}`,
+        data: {
+          "frame_name": "no-frame",
+          "qr_code_text": "http://localhost:8080/articles/" + id,
+          "image_format": "SVG",
+          "qr_code_logo": "scan-me-square"
+        }
+      })
+      res.status(200).send(data)
     } catch (err) {
       next(err)
     }

@@ -5,7 +5,7 @@ module.exports = async (req, res, next) => {
   try {
     const { access_token } = req.headers
     if (!access_token) throw { name: 'Unauthenticated' }
-    const payload = verifyToken(access_token)
+    const payload = verifyToken(access_token, true)
     const user = await Customer.findByPk(payload.id)
     if (!user) throw { name: 'Unauthenticated' }
 
