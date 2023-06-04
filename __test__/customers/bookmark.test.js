@@ -7,7 +7,7 @@ const { Customer } = require('../../models')
 let token
 beforeAll(async () => {
   const customer = await Customer.create({ email: 'customer@test.com', password: 'customer', role: 'Customer' })
-  token = signToken({ id: customer.id })
+  token = signToken({ id: customer.id }, true)
 
   const users = require('../../data/users.json')
   users.forEach(e => {
