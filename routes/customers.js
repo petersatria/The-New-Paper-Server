@@ -8,5 +8,6 @@ router
   .get('/bookmarks', customerAuthentication, CustomerController.bookmarks)
   .post('/bookmarks/:ArticleId', customerAuthentication, CustomerController.addBookmark)
   .post('/articles/:id', CustomerController.generateQR)
+  .get('/categories', CustomerController.findCategories)
 
 module.exports = router

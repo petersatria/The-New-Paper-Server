@@ -2,6 +2,7 @@ const { Op } = require("sequelize")
 const { comparePassword, signToken } = require("../helpers/helper")
 const { Customer, Article, Category, User, Bookmark } = require('../models')
 const { default: axios } = require("axios")
+const { OAuth2Client } = require('google-auth-library');
 
 class CustomerController {
   static async register(req, res, next) {
@@ -58,7 +59,7 @@ class CustomerController {
           password: String(Math.random())
         })
       }
-      const access_token = signToken({ id: user.id })
+      const access_token = signToken({ id: user.id }, true)
       res.status(200).json({
         message: 'Success to login', access_token, id: user.id,
         role: user.role
@@ -79,7 +80,8 @@ class CustomerController {
           model: User,
           attributes: ['username', 'email']
         }],
-        order: [['updatedAt', 'DESC']]
+        order: [['updatedAt', 'DESC']],
+        where: { status: 'Active' }
       }
 
       if (page) {
@@ -117,7 +119,7 @@ class CustomerController {
         }, {
           model: User,
           attributes: ['username', 'email']
-        }]
+        }],
       }
 
       const data = await Article.findByPk(id, options)
@@ -146,7 +148,7 @@ class CustomerController {
       const data = await Article.findByPk(ArticleId)
       if (!data) throw { name: 'NotFound' }
 
-      const isAdded = await Bookmark.findOne({ where: { ArticleId } })
+      const isAdded = await Bookmark.findOne({ where: { [Op.and]: [{ ArticleId }, { CustomerId }] } })
       if (isAdded) throw { name: 'BookmarkedArticle' }
 
       const bookmarks = await Bookmark.create({ CustomerId, ArticleId })
@@ -174,6 +176,15 @@ class CustomerController {
         }
       })
       res.status(200).send(data)
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  static async findCategories(req, res, next) {
+    try {
+      const data = await Category.findAll()
+      res.status(200).json({ message: 'Success get data', data })
     } catch (err) {
       next(err)
     }
